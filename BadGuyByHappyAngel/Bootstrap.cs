@@ -44,7 +44,8 @@ namespace BadGuyByHappyAngel
             "Я лучше тебя ^)",
             "Смотри на мою игру лучше",
             "НЮХАЙ БЕБРУ",
-            "Раз на раз цука"
+            "Раз на раз цука",
+            "Единственный"
         };
 
         protected override void OnActivate()
