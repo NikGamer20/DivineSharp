@@ -45,7 +45,8 @@ namespace BadGuyByHappyAngel
             "Смотри на мою игру лучше",
             "НЮХАЙ БЕБРУ",
             "Раз на раз цука",
-            "Единственный"
+            "Единственный",
+            "Купи мозг плиз"
         };
 
         protected override void OnActivate()
