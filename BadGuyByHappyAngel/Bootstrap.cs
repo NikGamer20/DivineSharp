@@ -71,7 +71,7 @@ namespace BadGuyByHappyAngel
             var rootmenu = MenuManager.CreateRootMenu("Bad guy by HappyAngel");
             EnableSwitcher = rootmenu.CreateSwitcher("Enable", false);
             AutoPauseOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto pause on kill hero", false);
-            AutoChatSwitcher = rootmenu.CreateSwitcher("Auto chat", false);
+            AutoChatSwitcher = rootmenu.CreateSwitcher("Auto chat on kill hero", false);
             LangSelector = rootmenu.CreateSelector("Lang", new[] { "Eng", "Rus" });
             AutoFeedSwitcher = rootmenu.CreateSwitcher("Auto feed", false);
             AutoTauntOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto taunt on kill hero", false);
