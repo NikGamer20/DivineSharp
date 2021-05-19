@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Divine.Menu.EventArgs;
+using Divine.SDK.Extensions;
+using Divine.SDK.Helpers;
 
 namespace BadGuyByHappyAngel
 {
@@ -16,9 +18,21 @@ namespace BadGuyByHappyAngel
     {
         private MenuSwitcher EnableSwitcher;
 
+        private MenuSwitcher AutoPauseOnKillHeroSwitcher;
+
+        private MenuSwitcher AutoChatSwitcher;
+
         private MenuSelector LangSelector;
 
-        private MenuSwitcher AutoPauseSwitcher;
+        private MenuSwitcher AutoFeedSwitcher;
+
+        private MenuSwitcher AutoTauntOnKillHeroSwitcher;
+
+        private MenuSwitcher AutoTauntSwitcher;
+        
+        private MenuSwitcher AutoLolOnKillHeroSwitcher;
+
+        private MenuSwitcher AutoLolSwitcher;
 
         private Random Random;
 
@@ -31,7 +45,8 @@ namespace BadGuyByHappyAngel
             "PRIVET LOX",
             "You lose",
             "Solo one on one",
-            "???","1000 - 7?"
+            "???",
+            "1000 - 7?"
         };
 
         private readonly string[] RusText =
@@ -45,16 +60,24 @@ namespace BadGuyByHappyAngel
             "Смотри на мою игру лучше",
             "НЮХАЙ БЕБРУ",
             "Раз на раз цука",
-            "Единственный",
-            "Купи мозг плиз"
+            "Помойка",
+            "Я ТОП 1 ",
+            "Твой рейт максимум единица чел...",
+            "Чел ты..."
         };
 
         protected override void OnActivate()
         {
             var rootmenu = MenuManager.CreateRootMenu("Bad guy by HappyAngel");
             EnableSwitcher = rootmenu.CreateSwitcher("Enable", false);
-            AutoPauseSwitcher = rootmenu.CreateSwitcher("Auto pause", false);
+            AutoPauseOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto pause on kill hero", false);
+            AutoChatSwitcher = rootmenu.CreateSwitcher("Auto chat", false);
             LangSelector = rootmenu.CreateSelector("Lang", new[] { "Eng", "Rus" });
+            AutoFeedSwitcher = rootmenu.CreateSwitcher("Auto feed", false);
+            AutoTauntOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto taunt on kill hero", false);
+            AutoTauntSwitcher = rootmenu.CreateSwitcher("Auto taunt", false);
+            AutoLolOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto lol on kill hero", false);
+            AutoLolSwitcher = rootmenu.CreateSwitcher("Auto lol", false);
 
             EnableSwitcher.ValueChanged += OnEnableValueChanged;
         }
@@ -65,10 +88,12 @@ namespace BadGuyByHappyAngel
             {
                 Random = new Random();
                 GameManager.GameEvent += OnGameEvent;
+                UpdateManager.CreateIngameUpdate(1000, OnUpdate);
             }
             else
             {
                 GameManager.GameEvent -= OnGameEvent;
+                UpdateManager.DestroyIngameUpdate(OnUpdate);
             }
         }
 
@@ -86,15 +111,64 @@ namespace BadGuyByHappyAngel
 
             await Task.Delay(500);
 
-            if (AutoPauseSwitcher)
+            if (AutoPauseOnKillHeroSwitcher)
             {
                 GameManager.ExecuteCommand("dota_pause");
             }
 
-            var text = LangSelector == "Eng" ? EngText : RusText;
-            var index = Random.Next(0, text.Length);
+            if (AutoTauntOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
+            {
+                GameManager.ExecuteCommand("use_item_client current_hero taunt");
+                MultiSleeper<string>.Sleep("AutoTaunt", 6000);
+            }
 
-            GameManager.ExecuteCommand($"say {text[index]}");
+            if (AutoLolOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoLol"))
+            {
+                GameManager.ExecuteCommand("say lol");
+                MultiSleeper<string>.Sleep("AutoLol", 15000);
+
+                await Task.Delay(300);
+            }
+
+            if (AutoChatSwitcher)
+            {
+                var text = LangSelector == "Eng" ? EngText : RusText;
+                var index = Random.Next(0, text.Length);
+
+                GameManager.ExecuteCommand($"say {text[index]}");
+            }
+        }
+
+        private void OnUpdate()
+        {
+            var localHero = EntityManager.LocalHero;
+            if (localHero == null || !localHero.IsValid || GameManager.IsPaused)
+            {
+                return;
+            }
+
+            if (AutoFeedSwitcher && !MultiSleeper<string>.Sleeping("AutoFeed"))
+            {
+                var fort = EntityManager.GetEntities<Fort>().FirstOrDefault(x => !x.IsAlly(localHero));
+                if (fort != null)
+                {
+                    localHero.Attack(fort.Position);
+                }
+
+                MultiSleeper<string>.Sleep("AutoFeed", 5000);
+            }
+
+            if (AutoTauntSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
+            {
+                GameManager.ExecuteCommand("use_item_client current_hero taunt");
+                MultiSleeper<string>.Sleep("AutoTaunt", 6000);
+            }
+
+            if (AutoLolSwitcher && !MultiSleeper<string>.Sleeping("AutoLol"))
+            {
+                GameManager.ExecuteCommand("say lol");
+                MultiSleeper<string>.Sleep("AutoLol", 15000);
+            }
         }
     }
 }
