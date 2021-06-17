@@ -119,7 +119,7 @@ namespace BadGuyByHappyAngel
             if (AutoTauntOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
             {
                 GameManager.ExecuteCommand("use_item_client current_hero taunt");
-                MultiSleeper<string>.Sleep("AutoTaunt", 6000);
+                MultiSleeper<string>.Sleep("AutoTaunt", 7500);
             }
 
             if (AutoLolOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoLol"))
@@ -161,7 +161,7 @@ namespace BadGuyByHappyAngel
             if (AutoTauntSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
             {
                 GameManager.ExecuteCommand("use_item_client current_hero taunt");
-                MultiSleeper<string>.Sleep("AutoTaunt", 6000);
+                MultiSleeper<string>.Sleep("AutoTaunt", 7500);
             }
 
             if (AutoLolSwitcher && !MultiSleeper<string>.Sleeping("AutoLol"))
