@@ -101,41 +101,52 @@ namespace BadGuyByHappyAngel
         {
             var gameEvent = e.GameEvent;
 
-            if (gameEvent.Name != "entity_killed" ||
-                gameEvent.GetInt32("entindex_attacker") != EntityManager.LocalHero.Index ||
-                EntityManager.GetEntityByIndex(gameEvent.GetInt32("entindex_killed")) is not Hero hero ||
-                hero.IsIllusion)
+            if (gameEvent.Name != "entity_killed")
             {
                 return;
             }
 
-            await Task.Delay(500);
-
-            if (AutoPauseOnKillHeroSwitcher)
+            if (gameEvent.GetInt32("entindex_attacker") == EntityManager.LocalHero.Index &&
+                EntityManager.GetEntityByIndex(gameEvent.GetInt32("entindex_killed")) is Hero hero &&
+                !hero.IsIllusion)
             {
-                GameManager.ExecuteCommand("dota_pause");
+                await Task.Delay(500);
+
+                if (AutoPauseOnKillHeroSwitcher)
+                {
+                    GameManager.ExecuteCommand("dota_pause");
+                }
+
+                if (AutoTauntOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
+                {
+                    GameManager.ExecuteCommand("use_item_client current_hero taunt");
+                    MultiSleeper<string>.Sleep("AutoTaunt", 7500);
+                }
+
+                if (AutoLolOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoLol"))
+                {
+                    GameManager.ExecuteCommand("say lol");
+                    MultiSleeper<string>.Sleep("AutoLol", 15000);
+
+                    await Task.Delay(300);
+                }
+
+                if (AutoChatSwitcher)
+                {
+                    var text = LangSelector == "Eng" ? EngText : RusText;
+                    var index = Random.Next(0, text.Length);
+
+                    GameManager.ExecuteCommand($"say {text[index]}");
+                }
             }
 
-            if (AutoTauntOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
+            if (EntityManager.GetEntityByIndex(gameEvent.GetInt32("entindex_killed")) is Hero hero2 && hero2.Position.Distance(EntityManager.LocalHero.Position) < 1000)
             {
-                GameManager.ExecuteCommand("use_item_client current_hero taunt");
-                MultiSleeper<string>.Sleep("AutoTaunt", 6000);
-            }
-
-            if (AutoLolOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoLol"))
-            {
-                GameManager.ExecuteCommand("say lol");
-                MultiSleeper<string>.Sleep("AutoLol", 15000);
-
-                await Task.Delay(300);
-            }
-
-            if (AutoChatSwitcher)
-            {
-                var text = LangSelector == "Eng" ? EngText : RusText;
-                var index = Random.Next(0, text.Length);
-
-                GameManager.ExecuteCommand($"say {text[index]}");
+                if (AutoTauntOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
+                {
+                    GameManager.ExecuteCommand("use_item_client current_hero taunt");
+                    MultiSleeper<string>.Sleep("AutoTaunt", 7500);
+                }
             }
         }
 
@@ -161,7 +172,7 @@ namespace BadGuyByHappyAngel
             if (AutoTauntSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
             {
                 GameManager.ExecuteCommand("use_item_client current_hero taunt");
-                MultiSleeper<string>.Sleep("AutoTaunt", 6000);
+                MultiSleeper<string>.Sleep("AutoTaunt", 7500);
             }
 
             if (AutoLolSwitcher && !MultiSleeper<string>.Sleeping("AutoLol"))
