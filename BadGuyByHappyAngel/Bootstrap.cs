@@ -1,16 +1,20 @@
-﻿using Divine;
-using SharpDX;
-using Divine.Menu;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using Divine.Menu.Items;
-using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
+
+using Divine.Entity;
+using Divine.Entity.Entities.Units.Buildings;
+using Divine.Entity.Entities.Units.Heroes;
+using Divine.Extensions;
+using Divine.Game;
+using Divine.Game.EventArgs;
+using Divine.GameConsole;
+using Divine.Helpers;
+using Divine.Menu;
 using Divine.Menu.EventArgs;
-using Divine.SDK.Extensions;
-using Divine.SDK.Helpers;
+using Divine.Menu.Items;
+using Divine.Service;
+using Divine.Update;
 
 namespace BadGuyByHappyAngel
 {
@@ -114,18 +118,18 @@ namespace BadGuyByHappyAngel
 
                 if (AutoPauseOnKillHeroSwitcher)
                 {
-                    GameManager.ExecuteCommand("dota_pause");
+                    GameConsoleManager.ExecuteCommand("dota_pause");
                 }
 
                 if (AutoTauntOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
                 {
-                    GameManager.ExecuteCommand("use_item_client current_hero taunt");
+                    GameConsoleManager.ExecuteCommand("use_item_client current_hero taunt");
                     MultiSleeper<string>.Sleep("AutoTaunt", 7500);
                 }
 
                 if (AutoLolOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoLol"))
                 {
-                    GameManager.ExecuteCommand("say lol");
+                    GameConsoleManager.ExecuteCommand("say lol");
                     MultiSleeper<string>.Sleep("AutoLol", 15000);
 
                     await Task.Delay(300);
@@ -136,7 +140,7 @@ namespace BadGuyByHappyAngel
                     var text = LangSelector == "Eng" ? EngText : RusText;
                     var index = Random.Next(0, text.Length);
 
-                    GameManager.ExecuteCommand($"say {text[index]}");
+                    GameConsoleManager.ExecuteCommand($"say {text[index]}");
                 }
             }
 
@@ -144,7 +148,7 @@ namespace BadGuyByHappyAngel
             {
                 if (AutoTauntOnKillHeroSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
                 {
-                    GameManager.ExecuteCommand("use_item_client current_hero taunt");
+                    GameConsoleManager.ExecuteCommand("use_item_client current_hero taunt");
                     MultiSleeper<string>.Sleep("AutoTaunt", 7500);
                 }
             }
@@ -171,13 +175,13 @@ namespace BadGuyByHappyAngel
 
             if (AutoTauntSwitcher && !MultiSleeper<string>.Sleeping("AutoTaunt"))
             {
-                GameManager.ExecuteCommand("use_item_client current_hero taunt");
+                GameConsoleManager.ExecuteCommand("use_item_client current_hero taunt");
                 MultiSleeper<string>.Sleep("AutoTaunt", 7500);
             }
 
             if (AutoLolSwitcher && !MultiSleeper<string>.Sleeping("AutoLol"))
             {
-                GameManager.ExecuteCommand("say lol");
+                GameConsoleManager.ExecuteCommand("say lol");
                 MultiSleeper<string>.Sleep("AutoLol", 15000);
             }
         }
