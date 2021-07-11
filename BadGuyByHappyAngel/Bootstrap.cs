@@ -83,7 +83,6 @@ namespace BadGuyByHappyAngel
             AutoTauntSwitcher = rootmenu.CreateSwitcher("Auto taunt", false);
             AutoLolOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto lol on kill hero", false);
             AutoLolSwitcher = rootmenu.CreateSwitcher("Auto lol", false);
-            Dota_new_player = rootmenu.CreateSwitcher("Dota_new_player false", false);
 
             EnableSwitcher.ValueChanged += OnEnableValueChanged;
         }
