@@ -28,8 +28,6 @@ namespace BadGuyByHappyAngel
 
         private MenuSelector LangSelector;
 
-        private MenuSwitcher Dota_new_player;
-
         private MenuSwitcher AutoFeedSwitcher;
 
         private MenuSwitcher AutoTauntOnKillHeroSwitcher;
