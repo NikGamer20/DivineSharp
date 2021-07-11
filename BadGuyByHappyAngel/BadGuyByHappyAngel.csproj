@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <Reference Include="Divine">
-      <HintPath>..\..\..\..\Desktop\Divine.NET5\bin\Divine.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files\Divine\References\Divine.dll</HintPath>
     </Reference>
   </ItemGroup>
 

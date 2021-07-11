@@ -28,6 +28,8 @@ namespace BadGuyByHappyAngel
 
         private MenuSelector LangSelector;
 
+        private MenuSwitcher Dota_new_player;
+
         private MenuSwitcher AutoFeedSwitcher;
 
         private MenuSwitcher AutoTauntOnKillHeroSwitcher;
@@ -67,7 +69,8 @@ namespace BadGuyByHappyAngel
             "Помойка",
             "Я ТОП 1 ",
             "Твой рейт максимум единица чел...",
-            "Чел ты..."
+            "Чел ты...",
+            "ROCFALL КОГДА КОМБО НА ИНВОКЕРА ААА???"
         };
 
         protected override void OnActivate()
@@ -78,10 +81,11 @@ namespace BadGuyByHappyAngel
             AutoChatSwitcher = rootmenu.CreateSwitcher("Auto chat on kill hero", false);
             LangSelector = rootmenu.CreateSelector("Lang", new[] { "Eng", "Rus" });
             AutoFeedSwitcher = rootmenu.CreateSwitcher("Auto feed", false);
-            AutoTauntOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto taunt on kill hero", false);
+            AutoTauntOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto tau nt on kill hero", false);
             AutoTauntSwitcher = rootmenu.CreateSwitcher("Auto taunt", false);
             AutoLolOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto lol on kill hero", false);
             AutoLolSwitcher = rootmenu.CreateSwitcher("Auto lol", false);
+            Dota_new_player = rootmenu.CreateSwitcher("Dota_new_player false", false);
 
             EnableSwitcher.ValueChanged += OnEnableValueChanged;
         }
@@ -101,7 +105,7 @@ namespace BadGuyByHappyAngel
             }
         }
 
-        private async void OnGameEvent(GameEventEventArgs e)
+        private  void OnGameEvent(GameEventEventArgs e)
         {
             var gameEvent = e.GameEvent;
 
@@ -114,7 +118,7 @@ namespace BadGuyByHappyAngel
                 EntityManager.GetEntityByIndex(gameEvent.GetInt32("entindex_killed")) is Hero hero &&
                 !hero.IsIllusion)
             {
-                await Task.Delay(500);
+                //await Task.Delay(500);
 
                 if (AutoPauseOnKillHeroSwitcher)
                 {
@@ -132,8 +136,11 @@ namespace BadGuyByHappyAngel
                     GameConsoleManager.ExecuteCommand("say lol");
                     MultiSleeper<string>.Sleep("AutoLol", 15000);
 
-                    await Task.Delay(300);
+                    //await Task.Delay(300);
                 }
+                
+                    
+               
 
                 if (AutoChatSwitcher)
                 {
@@ -153,7 +160,7 @@ namespace BadGuyByHappyAngel
                 }
             }
         }
-
+        
         private void OnUpdate()
         {
             var localHero = EntityManager.LocalHero;
