@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Divine.Entity;
 using Divine.Entity.Entities.Units.Buildings;
@@ -41,6 +42,10 @@ namespace BadGuyByHappyAngel
         private MenuSwitcher AutoLolSwitcher;
 
         private Random Random;
+
+        private List<int> SentMsg = new List<int>();
+
+        private int index = 0;
 
         private readonly string[] EngText =
         {
@@ -191,15 +196,25 @@ namespace BadGuyByHappyAngel
                 if (AutoChatSwitcher)
                 {
                     var text = LangSelector == "Eng" ? EngText : RusText;
-                    var index = Random.Next(0, text.Length);
+                    index = Random.Next(0, text.Length);
 
                     GameConsoleManager.ExecuteCommand($"say {text[index]}");
                 }
 
                 if (ZXC)
                 {
-                    
-                    var index = Random.Next(0, ZXC1.Length);
+                    if (SentMsg.Count == 42)
+                    {
+                        SentMsg.Clear();
+                        index = Random.Next(0, ZXC1.Length);
+                    }
+
+                    while (SentMsg.Contains(index) && SentMsg.Count != 42)
+                    {
+                        index = Random.Next(0, ZXC1.Length);
+                    }
+                    SentMsg.Add(index);
+                    Console.WriteLine($"{index}: {SentMsg.Count}");
 
                     GameConsoleManager.ExecuteCommand($"say {ZXC1[index]}");
                 }
