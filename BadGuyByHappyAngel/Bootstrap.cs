@@ -77,7 +77,8 @@ namespace BadGuyByHappyAngel
             "Чел ты...",
             "ROCFALL КОГДА КОМБО НА ИНВОКЕРА ААА???"
         };
-
+        Dictionary<string, int> ZXC7 = new Dictionary<string, int>();
+        
         private readonly string[] ZXC1 =
         {
             "а у вас походу умирать это семейное",
@@ -126,6 +127,12 @@ namespace BadGuyByHappyAngel
 
         protected override void OnActivate()
         {
+            
+            foreach (var item in ZXC1) 
+            {
+                ZXC7.Add(item, 0);
+            } 
+
             var rootmenu = MenuManager.CreateRootMenu("Bad guy by HappyAngel");
             EnableSwitcher = rootmenu.CreateSwitcher("Enable", false);
             AutoPauseOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto pause on kill hero", false);
@@ -205,16 +212,21 @@ namespace BadGuyByHappyAngel
                 {
                     if (SentMsg.Count == 42)
                     {
+                        foreach (var item in ZXC1)
+                        {
+                            ZXC7[item] = 0;
+                        }
                         SentMsg.Clear();
                         index = Random.Next(0, ZXC1.Length);
                     }
 
-                    while (SentMsg.Contains(index) && SentMsg.Count != 42)
+                    do
                     {
                         index = Random.Next(0, ZXC1.Length);
-                    }
-                    SentMsg.Add(index);
+                    } while (SentMsg.Contains(index) && SentMsg.Count != 42 && ZXC7[ZXC1[index]] == 1);
 
+                    SentMsg.Add(index);
+                    
                     GameConsoleManager.ExecuteCommand($"say {ZXC1[index]}");
                 }
             }
