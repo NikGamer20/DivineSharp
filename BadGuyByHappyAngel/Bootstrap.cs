@@ -214,7 +214,6 @@ namespace BadGuyByHappyAngel
                         index = Random.Next(0, ZXC1.Length);
                     }
                     SentMsg.Add(index);
-                    Console.WriteLine($"{index}: {SentMsg.Count}");
 
                     GameConsoleManager.ExecuteCommand($"say {ZXC1[index]}");
                 }
