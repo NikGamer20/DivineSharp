@@ -24,6 +24,8 @@ namespace BadGuyByHappyAngel
 
         private MenuSwitcher AutoPauseOnKillHeroSwitcher;
 
+        private MenuSwitcher ZXC;
+
         private MenuSwitcher AutoChatSwitcher;
 
         private MenuSelector LangSelector;
@@ -71,15 +73,62 @@ namespace BadGuyByHappyAngel
             "ROCFALL КОГДА КОМБО НА ИНВОКЕРА ААА???"
         };
 
+        private readonly string[] ZXC1 =
+        {
+            "а у вас походу умирать это семейное",
+            "нахуя пидораса убил?",
+            "чао персик дозревай",
+            "уважаемый в тюрьме вы будете водолазом",
+            "говори буду плохо говорить буду сосать",
+            "буду плохо сосать буду пересасывать",
+            "долбаеб иди башмачки в сундучок школьный собирай",
+            "ботинок ебаный чо слетел",
+            "братик маме привет передай",
+            "не противник",
+            "а ты че клоун???",
+            "я обоссал тебя",
+            "ты че там отлетел то?",
+            "упал хуета ебаная",
+            "но в боди забрал да похуй все равно упал",
+            "ливай с",
+            "до связи башмак",
+            "нищета глупейшая играть учись",
+            "опущен сын твари",
+            "пофикси нищ",
+            "оттарабанен армянская королева",
+            "сука не позорься и ливни",
+            "улетел тапочек ебаный",
+            "единицей свалился фуфлыжник",
+            "зачем ты играешь тут безмозглый",
+            "иди кумыса попей очередняра",
+            "откисай сочняра",
+            "АХАХА ЕБАТЬ У ТЕБЯ ЧЕРЕПНАЯ КОРОБКА ПРЯМ КАК",
+            "на мыло и веревку то деньги есть????",
+            "ИЩИ СЕБЯ НА pornoeb.cc/sochniki",
+            "свежий кабанчик",
+            "до связи на подскоке кабанчик",
+            "скажи маме сухарики купить долбаеб",
+            "ебать ты красиво на бутылку присел , тебе дать альт ?",
+            "прости что без смазки)",
+            "алло это скорая? тут такая ситуация пареню который упал нужна скорая)",
+            "ало ты мапу лузаешь дура очнись",
+            "тяжело с кряком????",
+            "ЕБУЧЕСТЬ ВТОРОГО РАЗРЯДА ВЫДВИЖЕНЕЦ ОТКИС",
+            "але а противники то где???",
+            "ХУЕПРЫГАЛО ТУСОВОЧНОЕ КУДА ПОЛЕТЕЛО",
+            "ты куда жертва козьего аборта"
+         };
+
         protected override void OnActivate()
         {
             var rootmenu = MenuManager.CreateRootMenu("Bad guy by HappyAngel");
             EnableSwitcher = rootmenu.CreateSwitcher("Enable", false);
             AutoPauseOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto pause on kill hero", false);
+            ZXC = rootmenu.CreateSwitcher("ZXC MODE",false);
             AutoChatSwitcher = rootmenu.CreateSwitcher("Auto chat on kill hero", false);
             LangSelector = rootmenu.CreateSelector("Lang", new[] { "Eng", "Rus" });
             AutoFeedSwitcher = rootmenu.CreateSwitcher("Auto feed", false);
-            AutoTauntOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto tau nt on kill hero", false);
+            AutoTauntOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto taunt on kill hero", false);
             AutoTauntSwitcher = rootmenu.CreateSwitcher("Auto taunt", false);
             AutoLolOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto lol on kill hero", false);
             AutoLolSwitcher = rootmenu.CreateSwitcher("Auto lol", false);
@@ -145,6 +194,14 @@ namespace BadGuyByHappyAngel
                     var index = Random.Next(0, text.Length);
 
                     GameConsoleManager.ExecuteCommand($"say {text[index]}");
+                }
+
+                if (ZXC)
+                {
+                    
+                    var index = Random.Next(0, ZXC1.Length);
+
+                    GameConsoleManager.ExecuteCommand($"say {ZXC1[index]}");
                 }
             }
 
