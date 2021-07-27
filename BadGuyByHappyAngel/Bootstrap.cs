@@ -27,6 +27,8 @@ namespace BadGuyByHappyAngel
 
         private MenuSwitcher ZXC;
 
+        private MenuSwitcher Unpause;
+
         private MenuSwitcher AutoChatSwitcher;
 
         private MenuSelector LangSelector;
@@ -149,6 +151,7 @@ namespace BadGuyByHappyAngel
             AutoTauntSwitcher = rootmenu.CreateSwitcher("Auto taunt", false);
             AutoLolOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto lol on kill hero", false);
             AutoLolSwitcher = rootmenu.CreateSwitcher("Auto lol", false);
+            Unpause = rootmenu.CreateSwitcher("Unpause", false);
 
             EnableSwitcher.ValueChanged += OnEnableValueChanged;
         }
@@ -201,8 +204,7 @@ namespace BadGuyByHappyAngel
 
                     //await Task.Delay(300);
                 }
-                
-                    
+
                
 
                 if (AutoChatSwitcher)
@@ -245,14 +247,23 @@ namespace BadGuyByHappyAngel
                 }
             }
         }
-        
+
         private void OnUpdate()
         {
+            if (Unpause && !MultiSleeper<string>.Sleeping("UNPAUSE") && GameManager.IsPaused ) 
+            {
+               
+                GameConsoleManager.ExecuteCommand("dota_pause");
+                MultiSleeper<string>.Sleep("UNPAUSE", 250);
+            }
+
             var localHero = EntityManager.LocalHero;
             if (localHero == null || !localHero.IsValid || GameManager.IsPaused)
             {
                 return;
             }
+
+
 
             if (AutoFeedSwitcher && !MultiSleeper<string>.Sleeping("AutoFeed"))
             {
