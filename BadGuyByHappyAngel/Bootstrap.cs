@@ -37,6 +37,8 @@ namespace BadGuyByHappyAngel
 
         private MenuSwitcher AutoTauntOnKillHeroSwitcher;
 
+        private MenuSwitcher itstruedeadinside;
+
         private MenuSwitcher AutoTauntSwitcher;
         
         private MenuSwitcher AutoLolOnKillHeroSwitcher;
@@ -151,6 +153,7 @@ namespace BadGuyByHappyAngel
             AutoTauntSwitcher = rootmenu.CreateSwitcher("Auto taunt", false);
             AutoLolOnKillHeroSwitcher = rootmenu.CreateSwitcher("Auto lol on kill hero", false);
             AutoLolSwitcher = rootmenu.CreateSwitcher("Auto lol", false);
+            itstruedeadinside = rootmenu.CreateSwitcher("its true dead inside", false); 
             Unpause = rootmenu.CreateSwitcher("Unpause", false);
 
             EnableSwitcher.ValueChanged += OnEnableValueChanged;
@@ -171,7 +174,7 @@ namespace BadGuyByHappyAngel
             }
         }
 
-        private  void OnGameEvent(GameEventEventArgs e)
+        private async void OnGameEvent(GameEventEventArgs e)
         {
             var gameEvent = e.GameEvent;
 
@@ -205,9 +208,17 @@ namespace BadGuyByHappyAngel
                     //await Task.Delay(300);
                 }
 
-               
+                if (itstruedeadinside){ 
+                for (int i = 1000; i > 2; i -= 7)
+                {
+                        GameConsoleManager.ExecuteCommand($"say {i}");
+                        await Task.Delay(95);
+                }
+            }
 
-                if (AutoChatSwitcher)
+
+
+            if (AutoChatSwitcher)
                 {
                     var text = LangSelector == "Eng" ? EngText : RusText;
                     index = Random.Next(0, text.Length);
