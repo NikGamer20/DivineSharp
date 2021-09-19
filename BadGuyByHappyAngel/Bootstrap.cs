@@ -212,7 +212,7 @@ namespace BadGuyByHappyAngel
                 for (int i = 1000; i > 2; i -= 7)
                 {
                         GameConsoleManager.ExecuteCommand($"say {i}");
-                        await Task.Delay(95);
+                        await Task.Delay(150);
                 }
             }
 
