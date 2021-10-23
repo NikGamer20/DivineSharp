@@ -129,11 +129,6 @@ namespace BadGuyByHappyAngel
             "ты куда жертва козьего аборта"
          };
 
-        protected override void OnPreActivate()
-        {
-            GameConsoleManager.ExecuteCommand("dota_new_player 0");  
-        }
-
         protected override void OnActivate()
         {
             
